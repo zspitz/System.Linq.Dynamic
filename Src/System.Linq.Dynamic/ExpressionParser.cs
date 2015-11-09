@@ -232,7 +232,7 @@ namespace System.Linq.Dynamic
             typeof(Convert),
             typeof(Uri),
 #if !NET35 && !SILVERLIGHT
-			typeof(System.Data.Objects.EntityFunctions)
+            typeof(System.Data.Objects.EntityFunctions)
 #endif
         };
 
@@ -1288,6 +1288,7 @@ namespace System.Linq.Dynamic
         {
             if (_predefinedTypes.Contains(type)) return true;
             if (GlobalConfig.CustomTypeProvider.GetCustomTypes().Contains(type)) return true;
+            if (type.IsGenericType && IsPredefinedType(type.GetGenericTypeDefinition()) && type.GetGenericArguments().All(IsPredefinedType)) return true;
 
             return false;
         }
